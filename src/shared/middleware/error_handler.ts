@@ -36,25 +36,28 @@ export const errorHandler = (err: any, req: Request, res: Response, _next: NextF
     message = err.message;
   }
 
-  logger.error('Validation error:', {
-    error: {
-      message,
-      stack: err.stack,
-      statusCode,
-      name: err.name,
-      ...(err.constructor?.name && { type: err.constructor.name }),
-    },
-    request: {
-      method: req.method,
-      url: req.originalUrl,
-      ip: req.ip,
-      userAgent: req.get('User-Agent'),
-    },
-  });
+  // logger.error('Validation error:', req.originalUrl, {
+  //   error: {
+  //     message,
+  //     stack: err.stack,
+  //     statusCode,
+  //     name: err.name,
+  //     ...(err.constructor?.name && { type: err.constructor.name }),
+  //   },
+  //   request: {
+  //     method: req.method,
+  //     url: req.originalUrl,
+  //     ip: req.ip,
+  //     userAgent: req.get('User-Agent'),
+  //   },
+  // });
+
+  logger.error(err);
 
   res.status(statusCode).json({
     error: {
       message,
+      statusCode,
       ...(env.NODE_ENV === 'development' && { stack: err.stack }),
     },
     timestamp: new Date().toISOString(),

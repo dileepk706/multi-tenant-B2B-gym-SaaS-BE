@@ -6,7 +6,6 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction) =
     const { method, originalUrl } = req;
     const { statusCode } = res;
 
-    // Determine appropriate log level based on response status code
     if (statusCode >= 500) {
       logger.error(`[${method}] ${originalUrl} - Status: ${statusCode}`);
     } else if (statusCode >= 400) {

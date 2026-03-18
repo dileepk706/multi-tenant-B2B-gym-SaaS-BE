@@ -1,0 +1,295 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "Gym SaaS API",
+    "description": "API documentation for the Gym SaaS application.\n\n## Base URL\n`{{baseUrl}}` — defaults to `http://localhost:3000`\n\n## Authentication\nProtected routes require a Bearer token in the `Authorization` header.\n\n## Route Groups\n| Group | Auth Required | Description |\n|-------|--------------|-------------|\n| Public | No | User registration, login |\n| Protected | Bearer Token | Gym management, user data |\n| Admin | Bearer Token + Admin Role | Administrative operations |\n\n## Response Format\nAll responses follow a standard format:\n```json\n{\n  \"success\": true,\n  \"message\": \"Description of the result\",\n  \"data\": {}\n}\n```",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "bearerToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Health",
+      "description": "Health check endpoints to verify the API is running.",
+      "item": [
+        {
+          "name": "Basic Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            },
+            "description": "Basic health check endpoint. Returns `OK` status if the server is running."
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"OK\",\n  \"timestamp\": \"2026-03-17T09:30:00.000Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "health"]
+            },
+            "description": "Detailed API health check. Returns service info including mode and CORS origin."
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"OK\",\n  \"timestamp\": \"2026-03-17T09:30:00.000Z\",\n  \"service\": \"HAD Gateway Management API\",\n  \"origin\": \"http://localhost:3000\",\n  \"mode\": \"development\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "User (Public)",
+      "description": "User management endpoints.\n\n**Route Group:** `public` — No authentication required.",
+      "auth": {
+        "type": "noauth"
+      },
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"SecureP@ss1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/user",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "user"]
+            },
+            "description": "Create a new user account.\n\n### Request Body\n| Field | Type | Required | Validation |\n|-------|------|----------|------------|\n| `name` | string | Yes | Min: 1 char, Max: 255 chars |\n| `email` | string | Yes | Min: 1 char, Max: 255 chars |\n| `password` | string | Yes | Min: 8 chars, must contain: 1 uppercase, 1 lowercase, 1 number, 1 special character |"
+          },
+          "response": [
+            {
+              "name": "Created Successfully",
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"User created successfully\",\n  \"data\": {\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"created_at\": \"2026-03-17T09:30:00.000Z\",\n    \"updated_at\": \"2026-03-17T09:30:00.000Z\"\n  }\n}"
+            },
+            {
+              "name": "Validation Error - Missing Name",
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Validation failed\",\n  \"errors\": [\n    {\n      \"field\": \"name\",\n      \"message\": \"Name is required\"\n    }\n  ]\n}"
+            },
+            {
+              "name": "Validation Error - Weak Password",
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Validation failed\",\n  \"errors\": [\n    {\n      \"field\": \"password\",\n      \"message\": \"Password must be at least 8 characters\"\n    },\n    {\n      \"field\": \"password\",\n      \"message\": \"Must contain at least one uppercase letter\"\n    },\n    {\n      \"field\": \"password\",\n      \"message\": \"Must contain at least one special character\"\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/user",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "user"]
+            },
+            "description": "Retrieve a list of all registered users."
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Users fetched successfully\",\n  \"data\": [\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"name\": \"John Doe\",\n      \"email\": \"john.doe@example.com\",\n      \"created_at\": \"2026-03-17T09:30:00.000Z\",\n      \"updated_at\": \"2026-03-17T09:30:00.000Z\"\n    },\n    {\n      \"id\": \"6ba7b810-9dad-11d1-80b4-00c04fd430c8\",\n      \"name\": \"Jane Smith\",\n      \"email\": \"jane.smith@example.com\",\n      \"created_at\": \"2026-03-17T10:00:00.000Z\",\n      \"updated_at\": \"2026-03-17T10:00:00.000Z\"\n    }\n  ]\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Gym (Protected)",
+      "description": "Gym management endpoints.\n\n**Route Group:** `protected` — Requires a valid Bearer token in the `Authorization` header.\n\nThe `authenticate` middleware is applied to all routes in this folder automatically.",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{bearerToken}}",
+            "type": "string"
+          }
+        ]
+      },
+      "item": [
+        {
+          "name": "Get Gym By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/gym/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "gym", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440000",
+                  "description": "UUID of the gym to retrieve"
+                }
+              ]
+            },
+            "description": "Retrieve a specific gym by its UUID.\n\n### Path Parameters\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| `id` | UUID | Yes | The unique identifier of the gym |"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"name\": \"FitZone Gym\",\n    \"address\": \"123 Main Street\",\n    \"created_at\": \"2026-03-17T09:30:00.000Z\",\n    \"updated_at\": \"2026-03-17T09:30:00.000Z\"\n  }\n}"
+            },
+            {
+              "name": "Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Gym not found\"\n}"
+            },
+            {
+              "name": "Unauthorized",
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Authentication required. Please provide a valid token.\"\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Auto-set response time test",
+          "pm.test('Response time is less than 500ms', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(500);",
+          "});",
+          "",
+          "// Auto-check content type",
+          "pm.test('Content-Type is application/json', function () {",
+          "    pm.response.to.have.header('Content-Type', /application\\/json/);",
+          "});"
+        ]
+      }
+    }
+  ]
+}

@@ -17,11 +17,11 @@ const devFormat = winston.format.combine(
 
 export const logger = winston.createLogger({
   level: env.LOG_LEVEL,
-  format: env.isProduction ? logFormat : devFormat,
+  format: env.IS_PRODUCTION ? logFormat : devFormat,
   defaultMeta: { service: 'gym-saas-api' },
   transports: [
     new winston.transports.Console(),
-    ...(env.isProduction
+    ...(env.IS_PRODUCTION
       ? [
           new winston.transports.File({
             filename: 'logs/error.log',

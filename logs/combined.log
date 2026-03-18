@@ -3,3 +3,51 @@
 {"level":"info","message":"🚀 Server running on port 3000 in production mode","service":"gym-saas-api","timestamp":"2026-03-13T08:48:44.240Z"}
 {"level":"info","message":"[GET] /api/health - Status: 200","service":"gym-saas-api","timestamp":"2026-03-13T08:49:03.073Z"}
 {"level":"info","message":"::1 - - [13/Mar/2026:08:49:03 +0000] \"GET /api/health HTTP/1.1\" 200 146 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-13T08:49:03.074Z"}
+{"level":"info","message":"🚀 Server running on port 3000 in production mode","service":"gym-saas-api","timestamp":"2026-03-16T14:15:36.853Z"}
+{"level":"error","message":"Validation error:","service":"gym-saas-api","timestamp":"2026-03-16T14:15:45.629Z"}
+{"level":"info","message":"[GET] /api/user - Status: 345","service":"gym-saas-api","timestamp":"2026-03-16T14:15:45.636Z"}
+{"level":"info","message":"::1 - - [16/Mar/2026:14:15:45 +0000] \"GET /api/user HTTP/1.1\" 345 107 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-16T14:15:45.637Z"}
+{"level":"error","message":"Validation error:","service":"gym-saas-api","timestamp":"2026-03-16T14:16:46.214Z"}
+{"level":"info","message":"[GET] /api/user - Status: 345","service":"gym-saas-api","timestamp":"2026-03-16T14:16:46.217Z"}
+{"level":"info","message":"::1 - - [16/Mar/2026:14:16:46 +0000] \"GET /api/user HTTP/1.1\" 345 107 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-16T14:16:46.218Z"}
+{"level":"error","message":"Validation error:","service":"gym-saas-api","timestamp":"2026-03-16T14:17:08.485Z"}
+{"level":"info","message":"[GET] /api/user - Status: 345","service":"gym-saas-api","timestamp":"2026-03-16T14:17:08.487Z"}
+{"level":"info","message":"::1 - - [16/Mar/2026:14:17:08 +0000] \"GET /api/user HTTP/1.1\" 345 107 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-16T14:17:08.488Z"}
+{"level":"error","message":"Validation error:","service":"gym-saas-api","timestamp":"2026-03-16T14:17:09.237Z"}
+{"level":"info","message":"[GET] /api/user - Status: 345","service":"gym-saas-api","timestamp":"2026-03-16T14:17:09.239Z"}
+{"level":"info","message":"::1 - - [16/Mar/2026:14:17:09 +0000] \"GET /api/user HTTP/1.1\" 345 107 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-16T14:17:09.239Z"}
+{"level":"error","message":"Validation error:","service":"gym-saas-api","timestamp":"2026-03-16T14:17:09.489Z"}
+{"level":"info","message":"[GET] /api/user - Status: 345","service":"gym-saas-api","timestamp":"2026-03-16T14:17:09.492Z"}
+{"level":"info","message":"::1 - - [16/Mar/2026:14:17:09 +0000] \"GET /api/user HTTP/1.1\" 345 107 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-16T14:17:09.522Z"}
+{"level":"error","message":"Validation error:","service":"gym-saas-api","timestamp":"2026-03-16T14:17:09.684Z"}
+{"level":"info","message":"[GET] /api/user - Status: 345","service":"gym-saas-api","timestamp":"2026-03-16T14:17:09.686Z"}
+{"level":"info","message":"::1 - - [16/Mar/2026:14:17:09 +0000] \"GET /api/user HTTP/1.1\" 345 107 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-16T14:17:09.688Z"}
+{"level":"warn","message":"[GET] /api/ - Status: 404","service":"gym-saas-api","timestamp":"2026-03-16T14:17:55.180Z"}
+{"level":"info","message":"::1 - - [16/Mar/2026:14:17:55 +0000] \"GET /api/ HTTP/1.1\" 404 143 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-16T14:17:55.181Z"}
+{"level":"info","message":"[GET] /api/health - Status: 200","service":"gym-saas-api","timestamp":"2026-03-16T14:18:02.905Z"}
+{"level":"info","message":"::1 - - [16/Mar/2026:14:18:02 +0000] \"GET /api/health HTTP/1.1\" 200 146 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-16T14:18:02.906Z"}
+{"level":"info","message":"🚀 Server running on port 3000 in production mode","service":"gym-saas-api","timestamp":"2026-03-16T14:18:42.064Z"}
+{"level":"info","message":"[GET] /api/health - Status: 200","service":"gym-saas-api","timestamp":"2026-03-16T14:18:49.137Z"}
+{"level":"info","message":"::1 - - [16/Mar/2026:14:18:49 +0000] \"GET /api/health HTTP/1.1\" 200 146 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-16T14:18:49.138Z"}
+{"level":"info","message":"[GET] /api/health - Status: 200","service":"gym-saas-api","timestamp":"2026-03-16T14:18:50.734Z"}
+{"level":"info","message":"::1 - - [16/Mar/2026:14:18:50 +0000] \"GET /api/health HTTP/1.1\" 200 146 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-16T14:18:50.735Z"}
+{"level":"error","message":"Validation error:","service":"gym-saas-api","timestamp":"2026-03-16T14:18:55.167Z"}
+{"level":"info","message":"[GET] /api/user - Status: 345","service":"gym-saas-api","timestamp":"2026-03-16T14:18:55.169Z"}
+{"level":"info","message":"::1 - - [16/Mar/2026:14:18:55 +0000] \"GET /api/user HTTP/1.1\" 345 107 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-16T14:18:55.171Z"}
+{"level":"info","message":"🚀 Server running on port 3000 in production mode","service":"gym-saas-api","timestamp":"2026-03-16T14:19:25.255Z"}
+{"level":"error","message":"Validation error:","service":"gym-saas-api","timestamp":"2026-03-16T14:19:26.321Z"}
+{"level":"info","message":"[GET] /api/user - Status: 345","service":"gym-saas-api","timestamp":"2026-03-16T14:19:26.332Z"}
+{"level":"info","message":"::1 - - [16/Mar/2026:14:19:26 +0000] \"GET /api/user HTTP/1.1\" 345 107 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-16T14:19:26.342Z"}
+{"level":"error","message":"Validation error:","service":"gym-saas-api","timestamp":"2026-03-16T14:19:28.326Z"}
+{"level":"info","message":"[GET] /api/user - Status: 345","service":"gym-saas-api","timestamp":"2026-03-16T14:19:28.328Z"}
+{"level":"info","message":"::1 - - [16/Mar/2026:14:19:28 +0000] \"GET /api/user HTTP/1.1\" 345 107 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-16T14:19:28.329Z"}
+{"level":"error","message":"Validation error:","service":"gym-saas-api","timestamp":"2026-03-16T14:19:28.921Z"}
+{"level":"info","message":"[GET] /api/user - Status: 345","service":"gym-saas-api","timestamp":"2026-03-16T14:19:28.924Z"}
+{"level":"info","message":"::1 - - [16/Mar/2026:14:19:28 +0000] \"GET /api/user HTTP/1.1\" 345 107 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-16T14:19:28.924Z"}
+{"level":"error","message":"Validation error:","service":"gym-saas-api","timestamp":"2026-03-16T14:22:32.675Z"}
+{"level":"info","message":"[GET] /api/user - Status: 345","service":"gym-saas-api","timestamp":"2026-03-16T14:22:32.679Z"}
+{"level":"info","message":"::1 - - [16/Mar/2026:14:22:32 +0000] \"GET /api/user HTTP/1.1\" 345 107 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-16T14:22:32.682Z"}
+{"level":"info","message":"🚀 Server running on port 3000 in production mode","service":"gym-saas-api","timestamp":"2026-03-16T14:22:44.950Z"}
+{"level":"error","message":"Validation error:","service":"gym-saas-api","timestamp":"2026-03-16T14:22:46.979Z"}
+{"level":"info","message":"[GET] /api/user - Status: 345","service":"gym-saas-api","timestamp":"2026-03-16T14:22:46.985Z"}
+{"level":"info","message":"::1 - - [16/Mar/2026:14:22:46 +0000] \"GET /api/user HTTP/1.1\" 345 124 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\"","service":"gym-saas-api","timestamp":"2026-03-16T14:22:46.986Z"}
