@@ -20,7 +20,6 @@ export const up = (pgm) => {
     `
     BEGIN
       NEW.updated_at = now();
-      NEW.updated_on = (extract(epoch from now()) * 1000)::bigint;
       RETURN NEW;
     END;
     `,

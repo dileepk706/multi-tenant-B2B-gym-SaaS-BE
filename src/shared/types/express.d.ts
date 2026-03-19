@@ -1,9 +1,14 @@
-import UserEntity from '@/module/user/domain/entites/user.entity.js';
+export type DecodedToken = {
+  user_id: string;
+  email: string;
+  gym_id: string;
+  tenant_id: string;
+};
 
 declare global {
   namespace Express {
     interface Request {
-      user?: UserEntity;
+      user?: DecodedToken;
     }
   }
 }

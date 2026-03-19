@@ -39,8 +39,8 @@ const env: EnvType = {
   // REFRESH_TTL_SEC: process.env.REFRESH_TTL_SEC
   //   ? parseInt(process.env.REFRESH_TTL_SEC, 10)
   //   : 60 * 60 * 24 * 7, // 7 days
-  REFRESH_TTL_SEC: 15 * 60, // 5 minutes
-  ACCESS_TTL: '1m',
+  REFRESH_TTL_SEC: 60 * 60, // 5 minutes
+  ACCESS_TTL: '15m',
 };
 
 export default env;

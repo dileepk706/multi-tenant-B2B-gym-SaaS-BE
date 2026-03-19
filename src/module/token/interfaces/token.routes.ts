@@ -2,8 +2,9 @@ import { Router } from 'express';
 import { container } from '@/config/container.js';
 import { ModuleRouteConfig } from '@/routes/route.types.js';
 import asyncHandler from '@/shared/middleware/async_handler.js';
+import IRefreshTokenController from '@/module/token/domain/intefaces/refresh-token.controller.interface .js';
 
-const tokenController = () => container.resolve<any>('ITokenController');
+const tokenController = () => container.resolve<IRefreshTokenController>('ITokenController');
 
 const tokenRoute = Router();
 

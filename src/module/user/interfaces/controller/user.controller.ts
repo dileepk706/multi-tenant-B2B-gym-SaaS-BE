@@ -9,7 +9,7 @@ class UserController implements IUserController {
   constructor(@inject('IUserService') private readonly userService: IUserService) {}
 
   createUser = async (req: Request, res: Response) => {
-    const result = await this.userService.createUser(req.body);
+    const result = await this.userService.create(req.body);
     return responseHandler(res, result, 'User created successfully', 201);
   };
 }

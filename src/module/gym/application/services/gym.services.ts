@@ -2,7 +2,8 @@ import { inject, injectable } from 'tsyringe';
 
 import { IGymService } from '@/module/gym/domain/interfaces/gym.service.interface.js';
 import IGymRepositoryImpl from '@/module/gym/domain/interfaces/gym.repository.interface.js';
-import GymEntity from '@/module/gym/domain/entities/gym.entity.js';
+import Gym, { GymPartial } from '@/module/gym/domain/entities/gym.entity.js';
+import { QueryExecutor } from '@/shared/types/database.js';
 
 @injectable()
 class GymService implements IGymService {
@@ -10,8 +11,17 @@ class GymService implements IGymService {
     @inject('IGymRepositoryImpl') private readonly gymRepositoryImpl: IGymRepositoryImpl,
   ) {}
 
-  async getGymById(id: string): Promise<GymEntity | null> {
-    return await this.gymRepositoryImpl.getGymById(id);
+  async findById(id: string, client?: QueryExecutor): Promise<Gym | null> {
+    return await this.gymRepositoryImpl.findById(id, client);
+  }
+
+  async create(gym: GymPartial, client?: QueryExecutor): Promise<Gym> {
+    return await this.gymRepositoryImpl.create(gym, client);
+  }
+
+  async updateById(id: string, gym: GymPartial, client?: QueryExecutor): Promise<Gym | null> {
+    const updatedGym = await this.gymRepositoryImpl.updateById(id, gym, client);
+    return updatedGym;
   }
 }
 

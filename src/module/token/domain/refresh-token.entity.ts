@@ -1,4 +1,4 @@
-type RefreshTokenEntity = {
+type RefreshToken = {
   id: string;
   user_id: string;
   token_hash: string;
@@ -7,4 +7,4 @@ type RefreshTokenEntity = {
   user_agent: string;
 };
 
-export default RefreshTokenEntity;
+export default RefreshToken;

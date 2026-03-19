@@ -9,10 +9,11 @@ import TokenSharedService, {
   hashToken,
 } from '@/shared/services/token.shared.service.js';
 import { ApiError } from '@/shared/middleware/error_handler.js';
-import RefreshTokenEntity from '@/module/token/domain/refresh-token.entity.js';
+import RefreshToken from '@/module/token/domain/refresh-token.entity.js';
+import IRefreshTokenService from '@/module/token/domain/intefaces/refresh-token.service.interface.js';
 
 @injectable()
-class TokenService {
+class TokenService implements IRefreshTokenService {
   constructor(
     @inject('IRefreshTokenRepository')
     private readonly refreshTokenRepository: RefreshTokenRepository,
@@ -20,11 +21,9 @@ class TokenService {
 
   createRefreshToken = async (data: CreateRefreshTokenDto) => {
     const token_hash = hashToken(data.refreshToken);
-    const expires_at = new Date(Date.now() + env.REFRESH_TTL_SEC * 1000);
 
     await this.refreshTokenRepository.create({
       token_hash,
-      expires_at,
       jti: data.jti,
       user_id: data.user_id,
       ip: data.ip,
@@ -43,7 +42,7 @@ class TokenService {
 
     await this.createRefreshToken({
       refreshToken,
-      user_id: payLoad.id,
+      user_id: payLoad.user_id,
       ip: reqContext.ip,
       user_agent: reqContext.user_agent,
       jti,
@@ -82,7 +81,7 @@ class TokenService {
     return this.refreshTokenRepository.deleteByTokenHash(tokenHash);
   };
 
-  verifyRefreshToken = async (token: string): Promise<RefreshTokenEntity> => {
+  verifyRefreshToken = async (token: string): Promise<RefreshToken> => {
     let decoded: any;
     const tokenHash = hashToken(token);
 

@@ -1,0 +1,130 @@
+
+> gym_saas@1.0.0 migrate:up
+> node-pg-migrate up --migrations-dir src/database/migrations
+
+[dotenv@17.3.1] injecting env (12) from .env -- tip: ΓÜÖ∩╕Å  load multiple .env files with { path: ['.env.local', '.env'] }
+> Migrating files:
+> - 1773910200181_tenant
+> - 1773910987611_gym
+> - 1773911000000_role
+> - 1773911366159_staff
+> - 1773926548614_add-tenant-and-gym-to-users
+### MIGRATION 1773910200181_tenant (UP) ###
+CREATE TABLE "tenants" (
+  "id" uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  "name" varchar(255) NOT NULL,
+  "primary_gym_id" uuid,
+  "created_at" timestamp with time zone DEFAULT now() NOT NULL,
+  "updated_at" timestamp with time zone DEFAULT now() NOT NULL,
+  "deleted" boolean DEFAULT false
+);
+CREATE TRIGGER "set_updated_at"
+  BEFORE UPDATE ON "tenants"
+  FOR EACH ROW
+  EXECUTE PROCEDURE "set_updated_at"();
+INSERT INTO "public"."pgmigrations" (name, run_on) VALUES ('1773910200181_tenant', NOW());
+
+
+### MIGRATION 1773910987611_gym (UP) ###
+CREATE TABLE "gyms" (
+  "id" uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  "name" varchar(255) NOT NULL,
+  "tenant_id" uuid NOT NULL REFERENCES tenants(id),
+  "address" varchar(255),
+  "city" varchar(255) NOT NULL,
+  "state" varchar(255) NOT NULL,
+  "phone" varchar(255),
+  "email" varchar(255),
+  "logo_url" varchar(255),
+  "created_at" timestamp with time zone DEFAULT now() NOT NULL,
+  "updated_at" timestamp with time zone DEFAULT now() NOT NULL,
+  "deleted" boolean DEFAULT false
+);
+CREATE TRIGGER "set_updated_at"
+  BEFORE UPDATE ON "gyms"
+  FOR EACH ROW
+  EXECUTE PROCEDURE "set_updated_at"();
+INSERT INTO "public"."pgmigrations" (name, run_on) VALUES ('1773910987611_gym', NOW());
+
+
+### MIGRATION 1773911000000_role (UP) ###
+CREATE TABLE "roles" (
+  "id" uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  "name" varchar(255) UNIQUE NOT NULL,
+  "created_at" timestamp with time zone DEFAULT now() NOT NULL,
+  "updated_at" timestamp with time zone DEFAULT now() NOT NULL,
+  "deleted" boolean DEFAULT false
+);
+
+    INSERT INTO roles (name) VALUES 
+    ('owner'), 
+    ('manager'), 
+    ('trainer');
+  ;
+CREATE TRIGGER "set_updated_at"
+  BEFORE UPDATE ON "roles"
+  FOR EACH ROW
+  EXECUTE PROCEDURE "set_updated_at"();
+INSERT INTO "public"."pgmigrations" (name, run_on) VALUES ('1773911000000_role', NOW());
+
+
+### MIGRATION 1773911366159_staff (UP) ###
+CREATE TABLE "staff" (
+  "id" uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  "tenant_id" uuid NOT NULL REFERENCES tenants(id),
+  "gym_id" uuid NOT NULL REFERENCES gyms(id),
+  "user_id" uuid NOT NULL REFERENCES users(id),
+  "role_id" uuid NOT NULL REFERENCES roles(id),
+  "name" varchar(255) NOT NULL,
+  "email" varchar(255) NOT NULL,
+  "phone" varchar(255) NOT NULL,
+  "created_at" timestamp with time zone DEFAULT now() NOT NULL,
+  "updated_at" timestamp with time zone DEFAULT now() NOT NULL,
+  "deleted" boolean DEFAULT false
+);
+CREATE TRIGGER "set_updated_at"
+  BEFORE UPDATE ON "staff"
+  FOR EACH ROW
+  EXECUTE PROCEDURE "set_updated_at"();
+INSERT INTO "public"."pgmigrations" (name, run_on) VALUES ('1773911366159_staff', NOW());
+
+
+### MIGRATION 1773926548614_add-tenant-and-gym-to-users (UP) ###
+ALTER TABLE "users"
+  ADD "tenant_id" uuid REFERENCES tenants(id),
+  ADD "gym_id" uuid REFERENCES gyms(id),
+  ADD "name" varchar(255) UNIQUE NOT NULL;
+INSERT INTO "public"."pgmigrations" (name, run_on) VALUES ('1773926548614_add-tenant-and-gym-to-users', NOW());
+
+
+Error executing:
+ALTER TABLE "users"
+  ADD "tenant_id" uuid REFERENCES tenants(id),
+  ADD "gym_id" uuid REFERENCES gyms(id),
+  ADD "name" varchar(255) UNIQUE NOT NULL;
+error: column "name" of relation "users" contains null values
+
+> Rolling back attempted migration ...
+error: column "name" of relation "users" contains null values
+    at C:\Users\AJAY\Documents\gym_SaaS\node_modules\pg\lib\client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async Object.query (file:///C:/Users/AJAY/Documents/gym_SaaS/node_modules/node-pg-migrate/dist/bundle/index.js:3499:14)
+    at async runner (file:///C:/Users/AJAY/Documents/gym_SaaS/node_modules/node-pg-migrate/dist/bundle/index.js:3806:9) {
+  length: 138,
+  severity: 'ERROR',
+  code: '23502',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'users',
+  column: 'name',
+  dataType: undefined,
+  constraint: undefined,
+  file: 'tablecmds.c',
+  line: '6461',
+  routine: 'ATRewriteTable'
+}

@@ -3,14 +3,15 @@ import { inject, injectable } from 'tsyringe';
 import httpStatus from 'http-status';
 //
 import { ApiError } from '@/shared/middleware/error_handler.js';
-import TokenService from '@/module/token/application/services/token.service.js';
 import { cookieHandler, responseHandler } from '@/shared/response_handler.js';
+import IRefreshTokenController from '@/module/token/domain/intefaces/refresh-token.controller.interface .js';
+import IRefreshTokenService from '@/module/token/domain/intefaces/refresh-token.service.interface.js';
 
 @injectable()
-class TokenController {
-  constructor(@inject('ITokenService') private readonly tokenService: TokenService) {}
+class TokenController implements IRefreshTokenController {
+  constructor(@inject('ITokenService') private readonly tokenService: IRefreshTokenService) {}
 
-  refreshToken = async (req: Request, res: Response) => {
+  refreshToken = async (req: Request, res: Response): Promise<any> => {
     const token = req.cookies?.refresh_token || req.body.refresh_token;
     if (!token) throw new ApiError('No refresh token', httpStatus.UNAUTHORIZED);
 

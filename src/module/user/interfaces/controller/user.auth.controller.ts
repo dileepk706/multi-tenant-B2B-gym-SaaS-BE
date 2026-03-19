@@ -16,11 +16,13 @@ class UserAuthController implements IUserAuthController {
   ) {}
 
   login = async (req: Request, res: Response) => {
-    const result = await this.userService.validateUser(req.body);
+    const result = await this.userService.validate(req.body);
 
     const payLoad = {
-      id: result.id,
+      user_id: result.id,
       email: result.email,
+      tenant_id: result.tenant_id || null,
+      gym_id: result.gym_id || null,
     };
 
     const { accessToken, refreshToken } = await this.tokenService.generateAuthTokens(payLoad, {

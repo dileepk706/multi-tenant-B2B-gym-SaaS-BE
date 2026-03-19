@@ -1,19 +1,19 @@
-import RefreshTokenEntity from '@/module/token/domain/refresh-token.entity.js';
+import RefreshToken from '@/module/token/domain/refresh-token.entity.js';
 
 interface IRefreshTokenService {
   createRefreshToken: (data: CreateRefreshTokenDto) => Promise<void>;
 
   rotateRefreshToken: (
     id: string,
-    data: CreateRefreshTokenDto,
-  ) => Promise<{ accessToken: string; refreshToken: string }>;
+    payLoad: Omit<CreateRefreshTokenDto, 'refreshToken' | 'jti'>,
+  ) => Promise<{
+    accessToken: string;
+    refreshToken: string;
+  }>;
 
-  findRefreshTokenByTokenHashAndJti: (
-    tokenHash: string,
-    jti: string,
-  ) => Promise<RefreshTokenEntity>;
+  findRefreshTokenByTokenHashAndJti: (tokenHash: string, jti: string) => Promise<RefreshToken>;
 
-  deleteRefreshTokenById: (id: string) => Promise<RefreshTokenEntity>;
+  verifyRefreshToken: (token: string) => Promise<RefreshToken>;
 }
 
 type CreateRefreshTokenDto = {

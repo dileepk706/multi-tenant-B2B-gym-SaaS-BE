@@ -13,15 +13,9 @@ export const commonColumns = (pgm) => ({
     notNull: true,
     default: pgm.func('now()'),
   },
-  created_on: {
-    type: 'bigint',
-    notNull: true,
-    default: pgm.func('(extract(epoch from now()) * 1000)::bigint'),
-  },
-  updated_on: {
-    type: 'bigint',
-    notNull: true,
-    default: pgm.func('(extract(epoch from now()) * 1000)::bigint'),
+  deleted: {
+    type: 'boolean',
+    default: false,
   },
 });
 

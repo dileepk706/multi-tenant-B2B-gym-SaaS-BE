@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 
 export default interface IGymController {
-  getGymById: (req: Request, res: Response) => void;
+  findById(req: Request, res: Response): Promise<any>;
+  create(req: Request, res: Response): Promise<any>;
+  updateById(req: Request, res: Response): Promise<any>;
 }
