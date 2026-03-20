@@ -28,9 +28,11 @@ export const up = (pgm) => {
     INSERT INTO roles (name) VALUES 
     ('owner'), 
     ('manager'), 
-    ('trainer');
-  `);
+    ('trainer'),
+  
 
+  `);
+  // ('front desk');
   addTimestampTrigger(pgm, 'roles');
 };
 
