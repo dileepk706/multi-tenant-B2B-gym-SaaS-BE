@@ -8,6 +8,13 @@ interface ValidationSchemas {
   params?: ZodSchema;
 }
 
+const formatZodError = (error: ZodError) => {
+  return error.issues.map((issue) => ({
+    field: issue.path.join('.'),
+    message: issue.message,
+  }));
+};
+
 export function processRequestBody<T extends ZodSchema>(schema: T) {
   return (req: Request, res: Response, next: NextFunction): void => {
     try {
@@ -16,13 +23,7 @@ export function processRequestBody<T extends ZodSchema>(schema: T) {
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        const message = error.issues
-          .map((issue) => {
-            const path = issue.path.length > 0 ? `${issue.path.join('.')}: ` : '';
-            return `${path}${issue.message}`;
-          })
-          .join('; ');
-        return next(new ApiError(message, 400));
+        return next(new ApiError('Validation failed', 400, formatZodError(error)));
       }
       return next(error);
     }
@@ -37,13 +38,7 @@ export function processRequestParams<T extends ZodSchema>(schema: T) {
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        const message = error.issues
-          .map((issue) => {
-            const path = issue.path.length > 0 ? `${issue.path.join('.')}: ` : '';
-            return `${path}${issue.message}`;
-          })
-          .join('; ');
-        return next(new ApiError(message, 400));
+        return next(new ApiError('Validation failed', 400, formatZodError(error)));
       }
       return next(error);
     }
@@ -58,13 +53,7 @@ export function processRequestQuery<T extends ZodSchema>(schema: T) {
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        const message = error.issues
-          .map((issue) => {
-            const path = issue.path.length > 0 ? `${issue.path.join('.')}: ` : '';
-            return `${path}${issue.message}`;
-          })
-          .join('; ');
-        return next(new ApiError(message, 400));
+        return next(new ApiError('Validation failed', 400, formatZodError(error)));
       }
       return next(error);
     }
@@ -86,13 +75,7 @@ export function processRequest(schemas: ValidationSchemas) {
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        const message = error.issues
-          .map((issue) => {
-            const path = issue.path.length > 0 ? `${issue.path.join('.')}: ` : '';
-            return `${path}${issue.message}`;
-          })
-          .join('; ');
-        return next(new ApiError(message, 400));
+        return next(new ApiError('Validation failed', 400, formatZodError(error)));
       }
       return next(error);
     }
