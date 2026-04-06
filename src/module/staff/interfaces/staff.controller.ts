@@ -5,6 +5,7 @@ import IStaffService from '@/module/staff/domain/interfaces/staff.service.interf
 import { sendSuccess } from '@/shared/response_handler.js';
 import { Request, Response } from 'express';
 import { inject, injectable } from 'tsyringe';
+import { z } from 'zod';
 
 @injectable()
 class StaffController implements IStaffController {
@@ -18,10 +19,20 @@ class StaffController implements IStaffController {
       ...req.body,
       gym_id: req.user.gym_id,
       tenant_id: req.user.tenant_id,
-      user_id: req.user.user_id,
     };
 
-    const result = await this.staffFcade.createStaffUser(s);
+    let result;
+    if (req.body.send_invitation && req.body.email) {
+      z.email({ message: 'Invalid email address' }).parse(req.body.email);
+      result = await this.staffFcade.createStaffUser(s);
+    } else {
+      result = await this.staffFcade.createStaffUser(s);
+
+      // result = await this.staffService.create(s);
+    }
+
+    // if staff deletes permisions also delated
+    // if any permision deleted , delete the record from staff table
 
     return sendSuccess(res, { result }, 'Staff created successfully', 201);
   };
