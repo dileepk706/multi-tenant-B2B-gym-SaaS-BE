@@ -2,7 +2,7 @@ type User = {
   id: string;
   name: string;
   email: string;
-  password: string;
+  password?: string;
   tenant_id: string;
   gym_id: string;
   created_at: Date;
