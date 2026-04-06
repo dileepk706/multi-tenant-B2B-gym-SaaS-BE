@@ -5,7 +5,7 @@ interface IRefreshTokenService {
 
   rotateRefreshToken: (
     id: string,
-    payLoad: Omit<CreateRefreshTokenDto, 'refreshToken' | 'jti'>,
+    payLoad: any,
   ) => Promise<{
     accessToken: string;
     refreshToken: string;
@@ -13,7 +13,9 @@ interface IRefreshTokenService {
 
   findRefreshTokenByTokenHashAndJti: (tokenHash: string, jti: string) => Promise<RefreshToken>;
 
-  verifyRefreshToken: (token: string) => Promise<RefreshToken>;
+  verifyRefreshToken: (
+    token: string,
+  ) => Promise<RefreshToken & { tenant_id: string; gym_id: string }>;
 }
 
 type CreateRefreshTokenDto = {
