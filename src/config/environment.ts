@@ -15,6 +15,7 @@ export type EnvType = {
   REFRESH_SECRET: string;
   ACCESS_TTL: string;
   REFRESH_TTL_SEC: number;
+  DEFAULT_PASSWORD: string;
 };
 
 const isProduction = () => process.env.NODE_ENV === 'production';
@@ -39,8 +40,9 @@ const env: EnvType = {
   // REFRESH_TTL_SEC: process.env.REFRESH_TTL_SEC
   //   ? parseInt(process.env.REFRESH_TTL_SEC, 10)
   //   : 60 * 60 * 24 * 7, // 7 days
-  REFRESH_TTL_SEC: 60 * 60, // 5 minutes
-  ACCESS_TTL: '15m',
+  REFRESH_TTL_SEC: 1 * 60, // 7 days
+  ACCESS_TTL: '5s',
+  DEFAULT_PASSWORD: process.env.DEFAULT_PASSWORD || '123',
 };
 
 export default env;

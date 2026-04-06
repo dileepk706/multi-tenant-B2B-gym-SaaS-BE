@@ -8,17 +8,28 @@ import { userRouteConfig } from '@/module/user/interfaces/route/user.routes.js';
 import { tokenRouteConfig } from '@/module/token/interfaces/token.routes.js';
 import { onboardingRouteConfig } from '@/module/onboarding/interfaces/onboarding.routes.js';
 import tenantMiddleware from '@/shared/middleware/tenant.middleware.js';
+import { staffRouteConfig } from '@/module/staff/interfaces/staff.routes.js';
+import { permissionRouteConfig } from '@/module/permissions/interfaces/route/permission.routes.js';
+import { roleRouteConfig } from '@/module/role/interfaces/route/role.routes.js';
+import { userAuthRouteConfig } from '@/module/user/interfaces/route/user.auth.routes.js';
 
 const moduleRoutes: ModuleRouteConfig[] = [
   gymRouteConfig,
   userRouteConfig,
   tokenRouteConfig,
   onboardingRouteConfig,
+  staffRouteConfig,
+  permissionRouteConfig,
+  roleRouteConfig,
+  userAuthRouteConfig,
 ];
 
 const groupMiddleware: RouteGroupMiddleware = {
   public: [],
-  protected: [authenticate, tenantMiddleware],
+  protected: [
+    authenticate,
+    // tenantMiddleware
+  ],
   // admin: [authenticate, authorizeAdmin],
   admin: [authenticate],
 };
