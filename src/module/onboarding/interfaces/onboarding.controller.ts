@@ -11,8 +11,8 @@ class OnboardingController implements IOnboardingController {
 
   createWorkspaceAndOnboardOwner = async (req: Request, res: Response): Promise<any> => {
     const tenant_id = req.user?.tenant_id;
-
-    if (tenant_id) throw new ApiError('You are already onboarded', 400);
+    const gym_id = req.user?.gym_id;
+    if (tenant_id || gym_id) throw new ApiError('You are already onboarded', 400);
 
     const result = await this.onboardingFcade.createWorkspaceAndOnboardOwner({
       ...req.body,

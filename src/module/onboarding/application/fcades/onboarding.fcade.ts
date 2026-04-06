@@ -5,7 +5,7 @@ import IOnboardingFcade from '@/module/onboarding/domain/onboarding.fcade.interf
 import IUserService from '@/module/user/domain/interfaces/user.services.interface.js';
 import { CreateGymDto } from '@/module/gym/application/dtos/create-gym.dtos.js';
 import IStaffService from '@/module/staff/domain/interfaces/staff.service.interface.js';
-import { IRoleService } from '@/module/role/role.interface.js';
+import { IRoleService } from '@/module/role/domain/interfaces/role.service.interface.js';
 import DbSharedService from '@/shared/services/db.shared.service.js';
 
 @injectable()

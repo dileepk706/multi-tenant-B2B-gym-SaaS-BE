@@ -70,7 +70,7 @@ onboardingRouter.post(
 export const onboardingRouteConfig: ModuleRouteConfig = {
   basePath: '/onboarding',
   router: onboardingRouter,
-  group: 'protected',
+  group: 'admin',
 };
 
 export default onboardingRouter;
