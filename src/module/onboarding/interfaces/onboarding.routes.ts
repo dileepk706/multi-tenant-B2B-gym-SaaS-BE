@@ -33,16 +33,13 @@ const getController = () => container.resolve<IOnboardingController>('IOnboardin
  *             required:
  *               - name
  *               - email
- *               - city
- *               - state
- *               - phone
- *               - address
- *               - logo_url
- *
+ *               - gym_url
  *             properties:
  *               email:
  *                 type: string
  *               name:
+ *                 type: string
+ *               gym_url:
  *                 type: string
  *               city:
  *                 type: string
