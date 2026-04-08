@@ -29,7 +29,7 @@ class OnboardingFcade implements IOnboardingFcade {
       await client.query('BEGIN');
 
       const existingGym = await this.gymService.findOne({ gym_url: data.gym_url });
-      if (existingGym) throw new ApiError('Gym url already exists', 400);
+      if (existingGym) throw new ApiError('Gym url already taken', 400);
 
       let tenant: any = await this.tenantService.createTenant(
         {
@@ -78,6 +78,11 @@ class OnboardingFcade implements IOnboardingFcade {
     } finally {
       client.release();
     }
+  };
+
+  checkGymUrl = async (url: string): Promise<boolean> => {
+    const existingGym = await this.gymService.findOne({ gym_url: url });
+    return !existingGym;
   };
 }
 
