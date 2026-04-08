@@ -21,6 +21,15 @@ class OnboardingController implements IOnboardingController {
 
     return sendSuccess(res, result, 'Onboarded successfully', 200);
   };
+
+  checkGymUrl = async (req: Request, res: Response): Promise<any> => {
+    const url = req.query.url as string;
+    if (!url) throw new ApiError('Gym URL is required', 400);
+
+    const isAvailable = await this.onboardingFcade.checkGymUrl(url);
+
+    return sendSuccess(res, { available: isAvailable }, 'Gym URL check successful', 200);
+  };
 }
 
 export default OnboardingController;
