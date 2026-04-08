@@ -12,6 +12,7 @@ import { staffRouteConfig } from '@/module/staff/interfaces/staff.routes.js';
 import { permissionRouteConfig } from '@/module/permissions/interfaces/route/permission.routes.js';
 import { roleRouteConfig } from '@/module/role/interfaces/route/role.routes.js';
 import { userAuthRouteConfig } from '@/module/user/interfaces/route/user.auth.routes.js';
+import { authorizeAdmin } from '@/shared/middleware/admin.middleware.js';
 
 const moduleRoutes: ModuleRouteConfig[] = [
   gymRouteConfig,
@@ -26,12 +27,8 @@ const moduleRoutes: ModuleRouteConfig[] = [
 
 const groupMiddleware: RouteGroupMiddleware = {
   public: [],
-  protected: [
-    authenticate,
-    // tenantMiddleware
-  ],
-  // admin: [authenticate, authorizeAdmin],
-  admin: [authenticate],
+  protected: [authenticate, tenantMiddleware],
+  admin: [authenticate, authorizeAdmin],
 };
 
 const API_PREFIX = '/api';

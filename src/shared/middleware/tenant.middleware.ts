@@ -8,7 +8,7 @@ const tenantMiddleware = (req: Request, res: Response, next: NextFunction): void
   const tenantId = req.user?.tenant_id;
   const gymId = req.user?.gym_id;
   if (!tenantId || !gymId)
-    throw new ApiError('Tenant ID and Gym ID are required.', httpStatus.UNAUTHORIZED);
+    throw new ApiError('Tenant ID and Gym ID are required.', httpStatus.NOT_FOUND);
   next();
 };
 

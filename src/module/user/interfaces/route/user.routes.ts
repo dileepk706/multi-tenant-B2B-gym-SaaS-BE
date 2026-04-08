@@ -26,7 +26,7 @@ userRouter.get('/profile', asyncHandler(getController().findOne));
 export const userRouteConfig: ModuleRouteConfig = {
   basePath: '/user',
   router: userRouter,
-  group: 'protected',
+  group: 'admin',
 };
 
 export default userRouter;
