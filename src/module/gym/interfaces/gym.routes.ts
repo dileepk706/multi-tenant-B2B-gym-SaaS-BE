@@ -59,6 +59,7 @@ gymRouter.get('/:id', (req, res) => getController().findById(req, res));
  *             properties:
  *               name: { type: string }
  *               email: { type: string }
+ *               gym_url: { type: string }
  *               phone: { type: string }
  *               address: { type: string }
  *               city: { type: string }
@@ -67,8 +68,7 @@ gymRouter.get('/:id', (req, res) => getController().findById(req, res));
  *             required:
  *               - name
  *               - email
- *               - city
- *               - state
+ *               - gym_url
  *     responses:
  *       201:
  *         description: Gym created successfully
