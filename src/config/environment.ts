@@ -40,8 +40,8 @@ const env: EnvType = {
   // REFRESH_TTL_SEC: process.env.REFRESH_TTL_SEC
   //   ? parseInt(process.env.REFRESH_TTL_SEC, 10)
   //   : 60 * 60 * 24 * 7, // 7 days
-  REFRESH_TTL_SEC: 1 * 60, // 7 days
-  ACCESS_TTL: '5s',
+  REFRESH_TTL_SEC: 60 * 60, // 7 days
+  ACCESS_TTL: '15m',
   DEFAULT_PASSWORD: process.env.DEFAULT_PASSWORD || '123',
 };
 
