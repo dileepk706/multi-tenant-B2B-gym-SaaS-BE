@@ -8,6 +8,7 @@ import IStaffService from '@/module/staff/domain/interfaces/staff.service.interf
 import { IRoleService } from '@/module/role/domain/interfaces/role.service.interface.js';
 import DbSharedService from '@/shared/services/db.shared.service.js';
 import { ApiError } from '@/shared/middleware/error_handler.js';
+import httpStatus from 'http-status';
 
 @injectable()
 class OnboardingFcade implements IOnboardingFcade {
@@ -21,24 +22,29 @@ class OnboardingFcade implements IOnboardingFcade {
   ) {}
 
   createWorkspaceAndOnboardOwner = async (
-    data: CreateGymDto & { user_id: string },
+    createGymDto: CreateGymDto,
+    userId: string,
   ): Promise<any> => {
     const client = await this.dbSharedService.getClient();
 
     try {
       await client.query('BEGIN');
 
-      const existingGym = await this.gymService.findOne({ gym_url: data.gym_url });
-      if (existingGym) throw new ApiError('Gym url already taken', 400);
+      const existingGym = await this.gymService.findOne({ gym_url: createGymDto.gym_url });
+      if (existingGym) throw new ApiError('Gym url already taken', httpStatus.NOT_FOUND);
+
+      const isAlreadyOnboarded = await this.userService.findOne({ id: userId });
+      if (isAlreadyOnboarded?.tenant_id || isAlreadyOnboarded?.gym_id)
+        throw new ApiError('User already onboarded', httpStatus.BAD_REQUEST);
 
       let tenant: any = await this.tenantService.createTenant(
         {
-          name: data.name,
+          name: createGymDto.name,
         },
         client,
       );
 
-      const gym = await this.gymService.create({ ...data, tenant_id: tenant.id }, client);
+      const gym = await this.gymService.create({ ...createGymDto, tenant_id: tenant.id }, client);
 
       tenant = await this.tenantService.updateTenantById(
         tenant.id,
@@ -47,7 +53,7 @@ class OnboardingFcade implements IOnboardingFcade {
       );
 
       const user = await this.userService.updateById(
-        data.user_id,
+        userId,
         {
           tenant_id: tenant.id,
           gym_id: gym.id,
