@@ -64,6 +64,41 @@ onboardingRouter.post(
   asyncHandler(getController().createWorkspaceAndOnboardOwner),
 );
 
+/**
+ * @swagger
+ * /api/onboarding/check-gym-url:
+ *   get:
+ *     summary: Check if a gym URL is available
+ *     tags: [Onboarding]
+ *     parameters:
+ *       - in: query
+ *         name: url
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The gym URL to check
+ *     responses:
+ *       200:
+ *         description: Gym URL availability status
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     available:
+ *                       type: boolean
+ *       400:
+ *         description: Bad request (missing URL parameter)
+ */
+onboardingRouter.get('/check-gym-url', asyncHandler((req, res) => getController().checkGymUrl(req, res)));
+
 export const onboardingRouteConfig: ModuleRouteConfig = {
   basePath: '/onboarding',
   router: onboardingRouter,
