@@ -4,7 +4,7 @@ import { Pool } from 'pg';
 import Gym, { GymPartial } from '@/module/gym/domain/entities/gym.entity.js';
 import IGymRepositoryImpl from '@/module/gym/domain/interfaces/gym.repository.interface.js';
 import { QueryExecutor } from '@/shared/types/database.js';
-import { queryBuilder } from '@/utils/db.psql.util.js';
+import { insertQueryBuilder, queryBuilder } from '@/utils/db.psql.util.js';
 
 @injectable()
 class GymRepositoryImpl implements IGymRepositoryImpl {
@@ -18,20 +18,8 @@ class GymRepositoryImpl implements IGymRepositoryImpl {
 
   create = async (gym: GymPartial, client?: QueryExecutor) => {
     const exec = client || this.pool;
-    const result = await exec.query(
-      'INSERT INTO gyms (tenant_id,name,email,gym_url,city,state,phone,address,logo_url) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *',
-      [
-        gym.tenant_id,
-        gym.name,
-        gym.email,
-        gym.gym_url,
-        gym.city,
-        gym.state,
-        gym.phone,
-        gym.address,
-        gym.logo_url,
-      ],
-    );
+    const { query, values } = insertQueryBuilder('gyms', gym);
+    const result = await exec.query(query, values);
     return result.rows[0] as Gym;
   };
 
