@@ -23,6 +23,10 @@ class GymService implements IGymService {
     const updatedGym = await this.gymRepositoryImpl.updateById(id, gym, client);
     return updatedGym;
   }
+
+  async findOne(data: GymPartial, client?: QueryExecutor): Promise<Gym | null> {
+    return await this.gymRepositoryImpl.findOne(data, client);
+  }
 }
 
 export default GymService;
