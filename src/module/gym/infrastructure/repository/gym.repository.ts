@@ -4,6 +4,7 @@ import { Pool } from 'pg';
 import Gym, { GymPartial } from '@/module/gym/domain/entities/gym.entity.js';
 import IGymRepositoryImpl from '@/module/gym/domain/interfaces/gym.repository.interface.js';
 import { QueryExecutor } from '@/shared/types/database.js';
+import { queryBuilder } from '@/utils/db.psql.util.js';
 
 @injectable()
 class GymRepositoryImpl implements IGymRepositoryImpl {
@@ -18,11 +19,12 @@ class GymRepositoryImpl implements IGymRepositoryImpl {
   create = async (gym: GymPartial, client?: QueryExecutor) => {
     const exec = client || this.pool;
     const result = await exec.query(
-      'INSERT INTO gyms (tenant_id,name,email,city,state,phone,address,logo_url) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *',
+      'INSERT INTO gyms (tenant_id,name,email,gym_url,city,state,phone,address,logo_url) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *',
       [
         gym.tenant_id,
         gym.name,
         gym.email,
+        gym.gym_url,
         gym.city,
         gym.state,
         gym.phone,
@@ -33,7 +35,11 @@ class GymRepositoryImpl implements IGymRepositoryImpl {
     return result.rows[0] as Gym;
   };
 
-  updateById = async (id: string, updates: GymPartial, client?: QueryExecutor): Promise<Gym | null> => {
+  updateById = async (
+    id: string,
+    updates: GymPartial,
+    client?: QueryExecutor,
+  ): Promise<Gym | null> => {
     const keys = Object.keys(updates);
 
     if (keys.length === 0) return null;
@@ -47,6 +53,13 @@ class GymRepositoryImpl implements IGymRepositoryImpl {
     const result = await exec.query(query, [id, ...values]);
 
     return result.rows[0] as Gym;
+  };
+
+  findOne = async (data: GymPartial, client?: QueryExecutor): Promise<Gym | null> => {
+    const { query, values } = queryBuilder('gyms', { ...data, deleted: false });
+    const exec = client || this.pool;
+    const r = await exec.query(query, values);
+    return r.rows[0] as Gym;
   };
 }
 
