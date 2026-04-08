@@ -23,6 +23,7 @@ class UserAuthController implements IUserAuthController {
       email: result.email,
       tenant_id: result.tenant_id || null,
       gym_id: result.gym_id || null,
+      role: 'admin',
     };
 
     const { accessToken, refreshToken } = await this.tokenService.generateAuthTokens(payLoad, {

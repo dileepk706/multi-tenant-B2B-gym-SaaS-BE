@@ -27,9 +27,9 @@ class UserService implements IUserService {
 
   validate = async (user: LoginUserDto, client?: QueryExecutor): Promise<User> => {
     const registerdUser = await this.findByEmail(user.email, client);
-    if (!registerdUser) throw new ApiError('Invalid credentials', httpStatus.UNAUTHORIZED);
+    if (!registerdUser) throw new ApiError('Invalid credentials', httpStatus.NOT_FOUND);
     const isPasswordValid = await comparePassword(user.password, registerdUser.password as string);
-    if (!isPasswordValid) throw new ApiError('Invalid credentials', httpStatus.UNAUTHORIZED);
+    if (!isPasswordValid) throw new ApiError('Invalid credentials', httpStatus.NOT_FOUND);
     delete registerdUser.password;
     return registerdUser;
   };
