@@ -7,6 +7,7 @@ import { CreateGymDto } from '@/module/gym/application/dtos/create-gym.dtos.js';
 import IStaffService from '@/module/staff/domain/interfaces/staff.service.interface.js';
 import { IRoleService } from '@/module/role/domain/interfaces/role.service.interface.js';
 import DbSharedService from '@/shared/services/db.shared.service.js';
+import { ApiError } from '@/shared/middleware/error_handler.js';
 
 @injectable()
 class OnboardingFcade implements IOnboardingFcade {
@@ -26,6 +27,9 @@ class OnboardingFcade implements IOnboardingFcade {
 
     try {
       await client.query('BEGIN');
+
+      const existingGym = await this.gymService.findOne({ gym_url: data.gym_url });
+      if (existingGym) throw new ApiError('Gym url already exists', 400);
 
       let tenant: any = await this.tenantService.createTenant(
         {
