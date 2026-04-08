@@ -17,7 +17,6 @@ class TokenController implements IRefreshTokenController {
     if (!token) throw new ApiError('No refresh token', httpStatus.UNAUTHORIZED);
 
     const doc = await this.tokenService.verifyRefreshToken(token);
-    console.log('Token decoded info:', { jti: doc.jti, userId: doc.user_id });
 
     const result = await this.tokenService.rotateRefreshToken(doc.token_hash, {
       user_id: doc.user_id,
@@ -26,6 +25,7 @@ class TokenController implements IRefreshTokenController {
       tenant_id: doc.tenant_id,
       gym_id: doc.gym_id,
     });
+    console.log('Token decoded info:', { tenant_id: doc.tenant_id, gym_id: doc.gym_id });
 
     cookieHandler(res, { refreshToken: result.refreshToken }, 'refresh_token');
 

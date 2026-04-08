@@ -11,6 +11,7 @@ import TokenSharedService, {
 import { ApiError } from '@/shared/middleware/error_handler.js';
 import RefreshToken from '@/module/token/domain/refresh-token.entity.js';
 import IRefreshTokenService from '@/module/token/domain/intefaces/refresh-token.service.interface.js';
+import httpStatus from 'http-status';
 
 @injectable()
 class TokenService implements IRefreshTokenService {
@@ -91,13 +92,13 @@ class TokenService implements IRefreshTokenService {
       decoded = jwt.verify(token, env.REFRESH_SECRET);
     } catch {
       await this.deleteRefreshTokenByTokenHash(tokenHash);
-      throw new ApiError('Invalid or expired refresh token', 401);
+      throw new ApiError('Invalid or expired refresh token', httpStatus.NOT_FOUND);
     }
 
     const doc = await this.findRefreshTokenByTokenHashAndJti(tokenHash, decoded.jti);
 
     if (!doc) {
-      throw new ApiError('Refresh token not recognized', 401);
+      throw new ApiError('Refresh token not recognized', httpStatus.NOT_FOUND);
     }
 
     return { ...doc, tenant_id: decoded.tenant_id, gym_id: decoded.gym_id };
