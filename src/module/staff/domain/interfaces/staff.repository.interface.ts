@@ -4,7 +4,7 @@ import { QueryExecutor } from '@/shared/types/database.js';
 
 interface IStaffRepository {
   create(staff: StaffDto, client?: QueryExecutor): Promise<Staff>;
-  findOne(staff: Partial<StaffDto> & { id?: string }, client?: QueryExecutor): Promise<Staff | null>;
+  findOne(staff: Partial<Staff>, client?: QueryExecutor): Promise<Staff | null>;
   //   findByEmail: (email: string) => Promise<Staff | null>;
   //   updateById: (id: string, staff: Partial<CreateStaffDto>) => Promise<Staff | null>;
 }

@@ -5,4 +5,5 @@ export default interface IGymRepositoryImpl {
   findById: (id: string, client?: QueryExecutor) => Promise<Gym | null>;
   create: (gym: GymPartial, client?: QueryExecutor) => Promise<Gym>;
   updateById: (id: string, gym: GymPartial, client?: QueryExecutor) => Promise<Gym | null>;
+  findOne: (data: GymPartial, client?: QueryExecutor) => Promise<Gym | null>;
 }

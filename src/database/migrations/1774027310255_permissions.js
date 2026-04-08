@@ -1,4 +1,4 @@
-import { commonColumns } from '../migration-utils';
+import { commonColumns } from '../migration-utils.js';
 
 /**
  * @type {import('node-pg-migrate').ColumnDefinitions | undefined}
@@ -25,9 +25,6 @@ export const up = (pgm) => {
     group: {
       type: 'varchar(255)',
       notNull: true,
-    },
-    description: {
-      type: 'text',
     },
     ...commonColumns(pgm),
   });
@@ -92,7 +89,7 @@ export const up = (pgm) => {
     ('gym.schedule', 'gym'),
     ('create.sale','point-of-sale'),
     ('manage.products','point-of-sale'),
-    ('sale.settings','point-of-sale'),  
+    ('sale.settings','point-of-sale')
     ON CONFLICT (slug) DO NOTHING;
   `);
 

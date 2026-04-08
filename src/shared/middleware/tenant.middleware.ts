@@ -1,12 +1,14 @@
 import type { Request, Response, NextFunction } from 'express';
 import httpStatus from 'http-status';
 import { ApiError } from '@/shared/middleware/error_handler.js';
+import { logger } from '@/shared/logger.js';
 
 const tenantMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+  logger.info(req.user);
   const tenantId = req.user?.tenant_id;
   const gymId = req.user?.gym_id;
   if (!tenantId || !gymId)
-    throw new ApiError('Tenant ID and Gym ID are required.', httpStatus.UNAUTHORIZED);
+    throw new ApiError('Tenant ID and Gym ID are required.', httpStatus.NOT_FOUND);
   next();
 };
 

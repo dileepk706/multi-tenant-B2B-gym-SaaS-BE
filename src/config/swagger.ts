@@ -39,6 +39,7 @@ const swaggerOptions: Options = {
     './src/shared/factories/express.app.factory.ts',
     './src/module/**/interfaces/*.routes.ts',
     './src/module/**/interfaces/route/*.routes.ts',
+    './src/module/permissions/permission.routes.ts',
   ],
 };
 

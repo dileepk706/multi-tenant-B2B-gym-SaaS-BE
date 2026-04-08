@@ -6,4 +6,5 @@ export default interface IUserRepository {
   create(user: CreateUserDto, client?: QueryExecutor): Promise<User>;
   findByEmail: (email: string, client?: QueryExecutor) => Promise<User | null>;
   updateById: (id: string, user: Partial<CreateUserDto>, client?: QueryExecutor) => Promise<User>;
+  findOne: (user: Partial<User>) => Promise<User | null>;
 }

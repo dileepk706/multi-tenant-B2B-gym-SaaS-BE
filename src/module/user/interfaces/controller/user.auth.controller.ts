@@ -2,7 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 //
-import { cookieHandler, sendSuccess } from '@/shared/response_handler.js';
+import { clearCookieHandler, cookieHandler, sendSuccess } from '@/shared/response_handler.js';
 import IUserAuthController from '@/module/user/domain/interfaces/user.auth.controller.interface.js';
 import TokenService from '@/module/token/application/services/token.service.js';
 import IUserService from '@/module/user/domain/interfaces/user.services.interface.js';
@@ -23,6 +23,7 @@ class UserAuthController implements IUserAuthController {
       email: result.email,
       tenant_id: result.tenant_id || null,
       gym_id: result.gym_id || null,
+      role: 'admin',
     };
 
     const { accessToken, refreshToken } = await this.tokenService.generateAuthTokens(payLoad, {
@@ -34,7 +35,7 @@ class UserAuthController implements IUserAuthController {
 
     return sendSuccess(
       res,
-      { accessToken, refreshToken },
+      { accessToken, refreshToken, user: result },
       'User logged in successfully',
       httpStatus.OK,
     );
@@ -43,7 +44,7 @@ class UserAuthController implements IUserAuthController {
   logout = async (req: Request, res: Response) => {
     const token = req.cookies?.refresh_token || req.body.refresh_token;
     this.tokenService.deleteRefreshTokenByTokenHash(hashToken(token));
-    res.clearCookie('refresh_token');
+    clearCookieHandler(res, 'refresh_token');
     return sendSuccess(res, {}, 'Logged out successfully', httpStatus.OK);
   };
 }

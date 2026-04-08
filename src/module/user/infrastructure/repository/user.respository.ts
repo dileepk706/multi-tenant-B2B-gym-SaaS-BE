@@ -4,17 +4,19 @@ import { CreateUserDto } from '@/module/user/application/dtos/create-user.dto.js
 import { inject, injectable } from 'tsyringe';
 import { Pool } from 'pg';
 import { QueryExecutor } from '@/shared/types/database.js';
+import { insertQueryBuilder, queryBuilder } from '@/utils/db.psql.util.js';
 
 @injectable()
 class UserRepository implements IUserRepository {
   constructor(@inject(Pool) private readonly pool: Pool) {}
 
-  create = async (user: CreateUserDto, client?: QueryExecutor): Promise<User> => {
+  create = async (
+    user: CreateUserDto & { tenant_id?: string; gym_id?: string },
+    client?: QueryExecutor,
+  ): Promise<User> => {
     const exec = client || this.pool;
-    const result = await exec.query(
-      `INSERT INTO users (email,password,name) VALUES ($1,$2,$3) RETURNING *`,
-      [user.email, user.password, user.name],
-    );
+    const { query, values } = insertQueryBuilder('users', user);
+    const result = await exec.query(query, values);
     return result.rows[0];
   };
 
@@ -27,6 +29,24 @@ class UserRepository implements IUserRepository {
   findByEmail = async (email: string, client?: QueryExecutor): Promise<User | null> => {
     const exec = client || this.pool;
     const result = await exec.query(`SELECT * FROM users WHERE email=$1`, [email]);
+    return result.rows[0] || null;
+  };
+
+  findOne = async (user: Partial<User>): Promise<User | null> => {
+    const { query, values } = queryBuilder('users', user, [
+      'name',
+      'email',
+      'id',
+      'gym_id',
+      'tenant_id',
+      'created_at',
+      'updated_at',
+      'created_on',
+      'updated_on',
+    ]);
+
+    const result = await this.pool.query(query, values);
+
     return result.rows[0] || null;
   };
 

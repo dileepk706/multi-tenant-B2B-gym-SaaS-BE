@@ -14,7 +14,7 @@ class UserService implements IUserService {
   constructor(@inject('IUserRepository') private readonly userRepository: IUserRepository) {}
 
   create = async (user: CreateUserDto, client?: QueryExecutor): Promise<User> => {
-    const existingUser = await this.userRepository.findByEmail(user.email, client);
+    const existingUser = await this.userRepository.findOne({ email: user.email });
     if (existingUser)
       throw new ApiError('User with same email already exists', httpStatus.CONFLICT);
     const hashedPassword = await hashPassword(user.password);
@@ -27,15 +27,21 @@ class UserService implements IUserService {
 
   validate = async (user: LoginUserDto, client?: QueryExecutor): Promise<User> => {
     const registerdUser = await this.findByEmail(user.email, client);
-    if (!registerdUser) throw new ApiError('Invalid credentials', httpStatus.UNAUTHORIZED);
-    const isPasswordValid = await comparePassword(user.password, registerdUser.password);
-    if (!isPasswordValid) throw new ApiError('Invalid credentials', httpStatus.UNAUTHORIZED);
+    if (!registerdUser) throw new ApiError('Invalid credentials', httpStatus.NOT_FOUND);
+    const isPasswordValid = await comparePassword(user.password, registerdUser.password as string);
+    if (!isPasswordValid) throw new ApiError('Invalid credentials', httpStatus.NOT_FOUND);
+    delete registerdUser.password;
     return registerdUser;
   };
 
   updateById = async (id: string, user: UserPartial, client?: QueryExecutor): Promise<User> => {
     const res = await this.userRepository.updateById(id, user, client);
     return res;
+  };
+
+  findOne = async (user: Partial<User>): Promise<User | null> => {
+    if (Object.keys(user).length === 0) return null;
+    return this.userRepository.findOne(user);
   };
 }
 

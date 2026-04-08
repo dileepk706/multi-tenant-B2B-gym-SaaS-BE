@@ -3,7 +3,10 @@ import User from '@/module/user/domain/entites/user.entity.js';
 import { QueryExecutor } from '@/shared/types/database.js';
 
 export default interface IUserService {
-  create(user: CreateUserDto, client?: QueryExecutor): Promise<User>;
+  create(
+    user: CreateUserDto & { tenant_id?: string; gym_id?: string },
+    client?: QueryExecutor,
+  ): Promise<User>;
   findByEmail: (email: string, client?: QueryExecutor) => Promise<User | null>;
   validate: (user: { email: string; password: string }, client?: QueryExecutor) => Promise<User>;
   updateById: (
@@ -11,4 +14,5 @@ export default interface IUserService {
     user: Partial<CreateUserDto> & { tenant_id?: string; gym_id?: string },
     client?: QueryExecutor,
   ) => Promise<User>;
+  findOne: (user: Partial<User>) => Promise<User | null>;
 }

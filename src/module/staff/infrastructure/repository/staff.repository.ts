@@ -27,7 +27,7 @@ class StaffRepository implements IStaffRepository {
     return result.rows[0];
   };
 
-  findOne = async (staff: Partial<StaffDto> & { id?: string }): Promise<Staff | null> => {
+  findOne = async (staff: Partial<Staff>): Promise<Staff | null> => {
     const keys = Object.keys(staff);
     if (keys.length === 0) return null;
 

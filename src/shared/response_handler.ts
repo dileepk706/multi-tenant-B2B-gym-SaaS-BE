@@ -14,7 +14,16 @@ export const cookieHandler = (res: Response, data: any, cookieName: string) => {
     httpOnly: true,
     secure: env.IS_PRODUCTION,
     sameSite: 'strict',
-    path: '/api/auth/refresh',
+    path: '/api',
     maxAge: env.REFRESH_TTL_SEC * 1000,
+  });
+};
+
+export const clearCookieHandler = (res: Response, cookieName: string) => {
+  return res.clearCookie(cookieName, {
+    httpOnly: true,
+    secure: env.IS_PRODUCTION,
+    sameSite: 'strict',
+    path: '/api',
   });
 };

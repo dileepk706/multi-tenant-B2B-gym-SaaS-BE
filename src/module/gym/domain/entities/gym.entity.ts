@@ -10,6 +10,7 @@ type Gym = {
   city: string | null;
   state: string | null;
   logo_url: string | null;
+  gym_url: string;
   created_at: Date;
   updated_at: Date;
   deleted: boolean;
