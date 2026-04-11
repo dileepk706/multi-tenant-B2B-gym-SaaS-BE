@@ -49,6 +49,12 @@ class GymRepositoryImpl implements IGymRepositoryImpl {
     const r = await exec.query(query, values);
     return r.rows[0] as Gym;
   };
+
+  find = async (gymFilters: GymPartial): Promise<Gym[]> => {
+    const { query, values } = queryBuilder('gyms', { ...gymFilters, deleted: false });
+    const result = await this.pool.query(query, values);
+    return result.rows;
+  };
 }
 
 export default GymRepositoryImpl;

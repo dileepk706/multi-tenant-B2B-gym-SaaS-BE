@@ -6,4 +6,5 @@ export interface IGymService {
   create(gym: GymPartial, client?: QueryExecutor): Promise<Gym>;
   updateById(id: string, gym: GymPartial, client?: QueryExecutor): Promise<Gym | null>;
   findOne(data: GymPartial, client?: QueryExecutor): Promise<Gym | null>;
+  find(gymFilters: GymPartial): Promise<Gym[]>;
 }

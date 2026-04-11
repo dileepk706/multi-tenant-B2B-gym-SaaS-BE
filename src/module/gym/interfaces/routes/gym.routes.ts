@@ -4,7 +4,7 @@ import type { ModuleRouteConfig } from '@/routes/route.types.js';
 import asyncHandler from '@/shared/middleware/async_handler.js';
 import IGymController from '@/module/gym/domain/interfaces/gym.controller.interface.js';
 import { processRequestBody } from '@/shared/middleware/validation.js';
-import { createGymSchema } from '@/module/gym/application/dtos/create-gym.dtos.js';
+import { createGymDtoSchema } from '@/module/gym/application/dtos/create-gym.dtos.js';
 
 const gymRouter: Router = Router();
 
@@ -77,7 +77,7 @@ gymRouter.get('/:id', (req, res) => getController().findById(req, res));
  *       401:
  *         description: Unauthorized
  */
-gymRouter.post('/', processRequestBody(createGymSchema), asyncHandler(getController().create));
+gymRouter.post('/', processRequestBody(createGymDtoSchema), asyncHandler(getController().create));
 
 /**
  * @swagger
@@ -104,8 +104,24 @@ gymRouter.post('/', processRequestBody(createGymSchema), asyncHandler(getControl
  */
 gymRouter.put('/:id', asyncHandler(getController().updateById));
 
+/**
+ * @swagger
+ * /api/gym:
+ *   get:
+ *     summary: Retrieve a list of gyms
+ *     tags: [Gym]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of gyms
+ *       401:
+ *         description: Unauthorized
+ */
+gymRouter.get('/', asyncHandler(getController().getGyms));
+
 export const gymRouteConfig: ModuleRouteConfig = {
-  basePath: '/gym',
+  basePath: '/gyms',
   router: gymRouter,
   group: 'protected',
 };
