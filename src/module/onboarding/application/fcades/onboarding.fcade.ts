@@ -3,12 +3,12 @@ import ITenantService from '@/module/tenant/domian/interfaces/tenant.service.int
 import { IGymService } from '@/module/gym/domain/interfaces/gym.service.interface.js';
 import IOnboardingFcade from '@/module/onboarding/domain/onboarding.fcade.interface.js';
 import IUserService from '@/module/user/domain/interfaces/user.services.interface.js';
-import { CreateGymDto } from '@/module/gym/application/dtos/create-gym.dtos.js';
 import IStaffService from '@/module/staff/domain/interfaces/staff.service.interface.js';
 import { IRoleService } from '@/module/role/domain/interfaces/role.service.interface.js';
 import DbSharedService from '@/shared/services/db.shared.service.js';
 import { ApiError } from '@/shared/middleware/error_handler.js';
 import httpStatus from 'http-status';
+import { CreateWorkspaceDto } from '@/module/onboarding/application/dtos/create-workspace.dto.js';
 
 @injectable()
 class OnboardingFcade implements IOnboardingFcade {
@@ -22,7 +22,7 @@ class OnboardingFcade implements IOnboardingFcade {
   ) {}
 
   createWorkspaceAndOnboardOwner = async (
-    createGymDto: CreateGymDto,
+    createWorkspaceDto: CreateWorkspaceDto,
     userId: string,
   ): Promise<any> => {
     const client = await this.dbSharedService.getClient();
@@ -30,7 +30,7 @@ class OnboardingFcade implements IOnboardingFcade {
     try {
       await client.query('BEGIN');
 
-      const existingGym = await this.gymService.findOne({ gym_url: createGymDto.gym_url });
+      const existingGym = await this.gymService.findOne({ gym_url: createWorkspaceDto.gym_url });
       if (existingGym) throw new ApiError('Gym url already taken', httpStatus.NOT_FOUND);
 
       const isAlreadyOnboarded = await this.userService.findOne({ id: userId });
@@ -39,12 +39,15 @@ class OnboardingFcade implements IOnboardingFcade {
 
       let tenant: any = await this.tenantService.createTenant(
         {
-          name: createGymDto.name,
+          name: createWorkspaceDto.name,
         },
         client,
       );
 
-      const gym = await this.gymService.create({ ...createGymDto, tenant_id: tenant.id }, client);
+      const gym = await this.gymService.create(
+        { ...createWorkspaceDto, tenant_id: tenant.id },
+        client,
+      );
 
       tenant = await this.tenantService.updateTenantById(
         tenant.id,

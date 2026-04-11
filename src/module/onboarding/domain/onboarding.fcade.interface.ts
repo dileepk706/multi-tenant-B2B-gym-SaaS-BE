@@ -1,7 +1,10 @@
-import { CreateGymDto } from '@/module/gym/application/dtos/create-gym.dtos.js';
+import { CreateWorkspaceDto } from '@/module/onboarding/application/dtos/create-workspace.dto.js';
 
 interface IOnboardingFcade {
-  createWorkspaceAndOnboardOwner(createGymDto: CreateGymDto, userId: string): Promise<any>;
+  createWorkspaceAndOnboardOwner(
+    createWorkspaceDto: CreateWorkspaceDto,
+    userId: string,
+  ): Promise<any>;
   checkGymUrl(url: string): Promise<boolean>;
 }
 

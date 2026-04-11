@@ -5,7 +5,7 @@ import type { ModuleRouteConfig } from '@/routes/route.types.js';
 import IOnboardingController from '@/module/onboarding/domain/onboarding.controller.interface.js';
 import asyncHandler from '@/shared/middleware/async_handler.js';
 import { processRequestBody } from '@/shared/middleware/validation.js';
-import { createGymSchema } from '@/module/gym/application/dtos/create-gym.dtos.js';
+import { createWorkspaceSchema } from '@/module/onboarding/application/dtos/create-workspace.dto.js';
 
 const onboardingRouter = Router();
 
@@ -60,7 +60,7 @@ const getController = () => container.resolve<IOnboardingController>('IOnboardin
 
 onboardingRouter.post(
   '/create-workspace',
-  processRequestBody(createGymSchema),
+  processRequestBody(createWorkspaceSchema),
   asyncHandler(getController().createWorkspaceAndOnboardOwner),
 );
 
@@ -97,7 +97,10 @@ onboardingRouter.post(
  *       400:
  *         description: Bad request (missing URL parameter)
  */
-onboardingRouter.get('/check-gym-url', asyncHandler((req, res) => getController().checkGymUrl(req, res)));
+onboardingRouter.get(
+  '/check-gym-url',
+  asyncHandler((req, res) => getController().checkGymUrl(req, res)),
+);
 
 export const onboardingRouteConfig: ModuleRouteConfig = {
   basePath: '/onboarding',
