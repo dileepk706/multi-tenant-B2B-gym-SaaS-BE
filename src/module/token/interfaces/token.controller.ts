@@ -12,20 +12,17 @@ class TokenController implements IRefreshTokenController {
   constructor(@inject('ITokenService') private readonly tokenService: IRefreshTokenService) {}
 
   refreshToken = async (req: Request, res: Response): Promise<any> => {
-    console.log(req.cookies.refresh_token);
     const token = req.cookies?.refresh_token;
     if (!token) throw new ApiError('No refresh token', httpStatus.UNAUTHORIZED);
 
-    const doc = await this.tokenService.verifyRefreshToken(token);
+    const { doc, decoded } = await this.tokenService.verifyRefreshToken(token);
 
     const result = await this.tokenService.rotateRefreshToken(doc.token_hash, {
       user_id: doc.user_id,
       ip: req.ip || '',
       user_agent: req.get('User-Agent') || '',
-      tenant_id: doc.tenant_id,
-      gym_id: doc.gym_id,
+      ...decoded,
     });
-    console.log('Token decoded info:', { tenant_id: doc.tenant_id, gym_id: doc.gym_id });
 
     cookieHandler(res, { refreshToken: result.refreshToken }, 'refresh_token');
 

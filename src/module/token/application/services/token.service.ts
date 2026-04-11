@@ -82,9 +82,7 @@ class TokenService implements IRefreshTokenService {
     return this.refreshTokenRepository.deleteByTokenHash(tokenHash);
   };
 
-  verifyRefreshToken = async (
-    token: string,
-  ): Promise<RefreshToken & { tenant_id: string; gym_id: string }> => {
+  verifyRefreshToken = async (token: string): Promise<{ doc: RefreshToken; decoded: any }> => {
     let decoded: any;
     const tokenHash = hashToken(token);
 
@@ -101,7 +99,8 @@ class TokenService implements IRefreshTokenService {
       throw new ApiError('Refresh token not recognized', httpStatus.NOT_FOUND);
     }
 
-    return { ...doc, tenant_id: decoded.tenant_id, gym_id: decoded.gym_id };
+    // return { ...doc, tenant_id: decoded.tenant_id, gym_id: decoded.gym_id };
+    return { doc, decoded };
   };
 }
 

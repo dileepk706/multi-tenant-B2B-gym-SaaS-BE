@@ -13,9 +13,7 @@ interface IRefreshTokenService {
 
   findRefreshTokenByTokenHashAndJti: (tokenHash: string, jti: string) => Promise<RefreshToken>;
 
-  verifyRefreshToken: (
-    token: string,
-  ) => Promise<RefreshToken & { tenant_id: string; gym_id: string }>;
+  verifyRefreshToken: (token: string) => Promise<{ doc: RefreshToken; decoded: any }>;
 }
 
 type CreateRefreshTokenDto = {

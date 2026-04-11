@@ -1,15 +1,28 @@
 import type { Request, Response, NextFunction } from 'express';
 import httpStatus from 'http-status';
 import { ApiError } from '@/shared/middleware/error_handler.js';
-import { logger } from '@/shared/logger.js';
 
 const tenantMiddleware = (req: Request, res: Response, next: NextFunction): void => {
-  logger.info(req.user);
   const tenantId = req.user?.tenant_id;
-  const gymId = req.user?.gym_id;
-  if (!tenantId || !gymId)
-    throw new ApiError('Tenant ID and Gym ID are required.', httpStatus.NOT_FOUND);
+  if (!tenantId) throw new ApiError('Tenant ID is required.', httpStatus.NOT_FOUND);
   next();
 };
 
 export default tenantMiddleware;
+
+export const gymMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+  const gymId = req.headers.gym_id || req.query.gym_id;
+  if (!gymId) throw new ApiError('Gym ID is required.', httpStatus.NOT_FOUND);
+  next();
+};
+
+// staff logined to the gym they staff
+// staff try to access other gym data by swtih gym barch tab
+// we need to check that staff is authorized to access the gym data
+//
+
+// staff user have app role as staff
+// gym 1 staff has user id
+// has staff with user_id and gym_id
+// if exist then allow
+// if not exist then throw error
