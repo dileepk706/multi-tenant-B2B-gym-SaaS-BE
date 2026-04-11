@@ -6,6 +6,6 @@ export interface ModuleRouteConfig {
   group: RouteGroup;
 }
 
-export type RouteGroup = 'public' | 'protected' | 'admin';
+export type RouteGroup = 'public' | 'protected' | 'admin' | 'tenant' | 'auth';
 
 export type RouteGroupMiddleware = Record<RouteGroup, RequestHandler[]>;
